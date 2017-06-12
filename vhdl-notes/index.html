@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
 <title>VHDL Notes</title>
-<!-- 2017-06-12 Mon 13:46 -->
+<!-- 2017-06-12 Mon 15:01 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="Joshua Trahan" />
@@ -148,6 +148,7 @@ for the JavaScript code in this tag.
 <li><a href="#sec-1-1">1.1. Project Creation</a></li>
 <li><a href="#sec-1-2">1.2. New Source File</a></li>
 <li><a href="#sec-1-3">1.3. Test Bench</a></li>
+<li><a href="#sec-1-4">1.4. Schematic Viewing</a></li>
 </ul>
 </li>
 <li><a href="#sec-2">2. Code model</a>
@@ -176,7 +177,7 @@ for the JavaScript code in this tag.
 <ul>
 <li><a href="#sec-5-1">5.1. Delay</a></li>
 <li><a href="#sec-5-2">5.2. Inertial vs. Transport Delay</a></li>
-<li><a href="#sec-5-3">5.3. Basic circuit example</a></li>
+<li><a href="#sec-5-3">5.3. Basic circuit examplnnne</a></li>
 <li><a href="#sec-5-4">5.4. Repeater clock example</a></li>
 </ul>
 </li>
@@ -223,7 +224,7 @@ for the JavaScript code in this tag.
 </li>
 <li>Associate test bench with module it's intended to test.
 </li>
-<li>If no timings are being used, delete all sections that have to do with timing (there should be two).
+<li>If no timings are being used, delete all sections that have to do with timing. These lines will contain <code>&lt;clock&gt;_period</code>.
 </li>
 <li>Write tests in about line 70, between <code>begin</code> and <code>end process;</code>.
 </li>
@@ -235,6 +236,12 @@ for the JavaScript code in this tag.
 </li>
 <li>Run Simulate Behavioral Model.
 </li>
+<li>A waveform will appear in a new window. Click the "Zoom to Full View" icon in the toolbar to see the entire waveform.
+</li>
+<li>Slide the yellow time thingy around to check values at certain points in time.
+</li>
+<li>If the waveform needs to be printed, print directly from the ISim applciation. This will allow you to specify a time range for the waveform.
+</li>
 </ol>
 </div>
 <div id="outline-container-sec-1-3-1" class="outline-4">
@@ -242,18 +249,37 @@ for the JavaScript code in this tag.
 <div class="outline-text-4" id="text-1-3-1">
 <div class="org-src-container">
 
-<pre class="src src-vhdl">A &lt;= <span style="color: #ffa07a;">'0'</span>;
-B &lt;= <span style="color: #ffa07a;">'0'</span>;
-C &lt;= <span style="color: #ffa07a;">'0'</span>;
-<span style="color: #20b2aa; font-weight: bold;">wait</span> <span style="color: #20b2aa; font-weight: bold;">for</span> 10 <span style="color: #deb887;">ns</span>;
+<pre class="src src-vhdl"><span style="color: #00ff7f;">stim_proc</span>: <span style="color: #20b2aa; font-weight: bold;">process</span>
+<span style="color: #20b2aa; font-weight: bold;">begin</span>
+  <span style="color: #20b2aa; font-weight: bold;">wait</span> <span style="color: #20b2aa; font-weight: bold;">for</span> 100ns;
 
-A &lt;= <span style="color: #ffa07a;">'0'</span>;
-B &lt;= <span style="color: #ffa07a;">'1'</span>;
-C &lt;= <span style="color: #ffa07a;">'1'</span>;
-<span style="color: #20b2aa; font-weight: bold;">wait</span> <span style="color: #20b2aa; font-weight: bold;">for</span> 10 <span style="color: #deb887;">ns</span>;
+  <span style="color: #cd853f;">-- </span><span style="color: #cd853f;">First test case</span>
+  A &lt;= <span style="color: #ffa07a;">'0'</span>;
+  B &lt;= <span style="color: #ffa07a;">'0'</span>;
+  C &lt;= <span style="color: #ffa07a;">'0'</span>;
+  <span style="color: #20b2aa; font-weight: bold;">wait</span> <span style="color: #20b2aa; font-weight: bold;">for</span> 10 <span style="color: #deb887;">ns</span>;
+
+  <span style="color: #cd853f;">-- </span><span style="color: #cd853f;">Second test case</span>
+  A &lt;= <span style="color: #ffa07a;">'0'</span>;
+  B &lt;= <span style="color: #ffa07a;">'1'</span>;
+  C &lt;= <span style="color: #ffa07a;">'1'</span>;
+  <span style="color: #20b2aa; font-weight: bold;">wait</span> <span style="color: #20b2aa; font-weight: bold;">for</span> 10 <span style="color: #deb887;">ns</span>;
+
+<span style="color: #20b2aa; font-weight: bold;">end</span> <span style="color: #20b2aa; font-weight: bold;">process</span>;
 </pre>
 </div>
 </div>
+</div>
+</div>
+<div id="outline-container-sec-1-4" class="outline-3">
+<h3 id="sec-1-4"><span class="section-number-3">1.4</span> Schematic Viewing</h3>
+<div class="outline-text-3" id="text-1-4">
+<ol class="org-ol">
+<li>Double click "View RTL Schematic", and choose "Start with a schematic of the top-level block.
+</li>
+<li>Double click on the block to view detail of it's implementation.
+</li>
+</ol>
 </div>
 </div>
 </div>
@@ -331,7 +357,7 @@ A library contains multiple names. Use of a library must be specified in a <i>Li
 <h3 id="sec-2-2"><span class="section-number-3">2.2</span> Entity</h3>
 <div class="outline-text-3" id="text-2-2">
 <p>
-An entity is basically an abstraction of a group of components. <a href="https://www.doulos.com/knowhow/vhdl_designers_guide/an_example_design_entity/">Here is a link to the resource I'm using.</a> Every input and output port of an entity is a signal. An entity is broken up into two <i>design units</i>: the <i>Entity Declaration</i>, and the <i>Architecture Body</i>.
+An entity is basically an abstraction of a group of components. <a href="https://www.doulos.com/knowhow/vhdl_designers_guide/an_example_design_entity/">Here is a link to a resource I'm using.</a> A <i>port</i> is an input/output element of an entity, representing a pin. Every input and output port of an entity is a signal. An entity is broken up into two <i>design units</i>: the <i>Entity Declaration</i>, and the <i>Architecture Body</i>.
 </p>
 </div>
 </div>
@@ -343,11 +369,14 @@ An entity is basically an abstraction of a group of components. <a href="https:/
 <h3 id="sec-3-1"><span class="section-number-3">3.1</span> Signal</h3>
 <div class="outline-text-3" id="text-3-1">
 <p>
-A signal is kind of like a variable, except it represents an input/output element of a circuit. All input and output ports of an entity are signals. Example:
+A signal is kind of like a variable, except it represents an input/output element of a circuit. All input and output ports of an entity are signals. Declaration syntax is <code>SINGAL signal_name: signal_type [range] [:= initial_value];</code>
+Declaration example:
 </p>
 <div class="org-src-container">
 
-<pre class="src src-vhdl">A &lt;= B <span style="color: #20b2aa; font-weight: bold;">or</span> C; <span style="color: #cd853f;">-- </span><span style="color: #cd853f;">A, B, and C are all signals.</span>
+<pre class="src src-vhdl"><span style="color: #20b2aa; font-weight: bold;">signal</span> <span style="color: #9acd32;">enable</span>: <span style="color: #9370db;">BIT</span> := <span style="color: #ffa07a;">'0'</span>; <span style="color: #cd853f;">-- </span><span style="color: #cd853f;">Declaration</span>
+enable &lt;= <span style="color: #ffa07a;">'1'</span>; <span style="color: #cd853f;">-- </span><span style="color: #cd853f;">Assignment</span>
+A &lt;= B <span style="color: #20b2aa; font-weight: bold;">or</span> C; <span style="color: #cd853f;">-- </span><span style="color: #cd853f;">A, B, and C are all signals.</span>
 </pre>
 </div>
 </div>
@@ -356,8 +385,13 @@ A signal is kind of like a variable, except it represents an input/output elemen
 <h3 id="sec-3-2"><span class="section-number-3">3.2</span> Bit vectors</h3>
 <div class="outline-text-3" id="text-3-2">
 <p>
-A bit vector is basically just an array of bits. They can be used with gates just like regular bits. 
+A bit vector is basically just an array of bits. They can be used with gates just like regular bits. Declaration example:
 </p>
+<div class="org-src-container">
+
+<pre class="src src-vhdl"><span style="color: #20b2aa; font-weight: bold;">signal</span> a = <span style="color: #9370db;">BIT_VECTOR</span>(7 <span style="color: #20b2aa; font-weight: bold;">downto</span> 0); <span style="color: #cd853f;">-- </span><span style="color: #cd853f;">8 bits, with index 7 being MSB?</span>
+</pre>
+</div>
 </div>
 <div id="outline-container-sec-3-2-1" class="outline-4">
 <h4 id="sec-3-2-1"><span class="section-number-4">3.2.1</span> Example</h4>
@@ -522,7 +556,7 @@ Here, C changes to 1 at 10ns (because of the inital delay from 0ns), then to 0 a
 </div>
 </div>
 <div id="outline-container-sec-5-3" class="outline-3">
-<h3 id="sec-5-3"><span class="section-number-3">5.3</span> Basic circuit example</h3>
+<h3 id="sec-5-3"><span class="section-number-3">5.3</span> Basic circuit examplnnne</h3>
 <div class="outline-text-3" id="text-5-3">
 <p>
 <img src="Circuit1.png" alt="Circuit1.png" /> <br  />
@@ -620,7 +654,7 @@ This is because there is no delay time, so the value of CLK tries to switch ever
 </div>
 <div id="postamble" class="status">
 <p class="author">Author: Joshua Trahan</p>
-<p class="date">Created: 2017-06-12 Mon 13:46</p>
+<p class="date">Created: 2017-06-12 Mon 15:01</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.2.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
